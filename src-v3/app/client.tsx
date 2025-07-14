@@ -1,15 +1,40 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { useTRPC } from "@/trpc/client";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 
 export const Client = () => {
   const trpc = useTRPC();
-  const { data } = useSuspenseQuery(trpc.hello.queryOptions({ text: "World" }));
+  const queryClient = useQueryClient();
+
+  const { data } = useSuspenseQuery(trpc.threads.getMany.queryOptions({}));
+
+  const createThread = useMutation(
+    trpc.threads.create.mutationOptions({
+      onSuccess: (thread) => {
+        console.debug("Thread created successfully:", thread.id);
+        // Invalidate the threads query to refresh the list
+        queryClient.invalidateQueries(trpc.threads.getMany.queryOptions({}));
+      },
+      onError: (error) => {
+        console.error("Error creating thread:", error);
+      },
+    })
+  );
 
   return (
-    <div className="text-red-600">
-      <p>{data.greeting}</p>
+    <div className="space-y-4">
+      <Button onClick={() => createThread.mutate({ userId: "123" })}>
+        Create Thread
+      </Button>
+      <Badge>{data?.length ?? 0} threads</Badge>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );
 };

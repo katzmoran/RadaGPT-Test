@@ -11,6 +11,7 @@ export default async function Home() {
       text: "World",
     })
   );
+  void queryClient.prefetchQuery(trpc.threads.getMany.queryOptions({}));
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@azure/ai-agents": "^1.0.0",
+    "@azure/ai-projects": "^1.0.0-beta.10",
+    "@azure/identity": "^4.10.2",
     "@hookform/resolvers": "^5.1.1",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-alert-dialog": "^1.1.14",
