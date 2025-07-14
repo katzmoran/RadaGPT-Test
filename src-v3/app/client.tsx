@@ -8,6 +8,7 @@ import {
   useQueryClient,
   useSuspenseQuery,
 } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export const Client = () => {
   const trpc = useTRPC();
@@ -21,6 +22,10 @@ export const Client = () => {
         console.debug("Thread created successfully:", thread.id);
         // Invalidate the threads query to refresh the list
         queryClient.invalidateQueries(trpc.threads.getMany.queryOptions({}));
+
+        toast.success("Thread created successfully!", {
+          description: `Thread ID: ${thread.id}`,
+        });
       },
       onError: (error) => {
         console.error("Error creating thread:", error);
