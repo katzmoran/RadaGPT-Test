@@ -1,33 +1,10 @@
-# What's new - 2025
-
-A new year brings some much requested feature updates to one of our most popular AI chat repos!
-
-- **[Managed Identity-based security](/docs/9-managed-identities.md)**. This uses Azure's underlying RBAC and removes (almost) all keys/secrets.
-- `appreg_setup.ps1` and `appreg_setup.sh` helper scripts to **[create the App Registration for you](/docs/3-add-identity.md#entra-id-authentication-provider)** in Entra ID (if you have the permissions). Less copypasta means happier devs 🥰
-- Added support for private endpoints and ESLZ compliant deployment
-
-# Unleash the Power of Azure OpenAI
-
-1. [Introduction](#introduction)
-2. [Solution Overview](./docs/1-introduction.md)
-3. [Run from your local machine](./docs/2-run-locally.md)
-4. [Add identity provider](./docs/3-add-identity.md)
-5. [Deploy to Azure](#deploy-to-azure)
-6. [Deploy to Azure with GitHub Actions](./docs/4-deploy-to-azure.md)
-7. [Chatting with your file](./docs/5-chat-over-file.md)
-8. [Persona](./docs/6-persona.md)
-9. [Extensions](./docs/7-extensions.md)
-10. [Environment variables](./docs/8-environment-variables.md)
-11. [Managed Identity-based deployment](./docs/9-managed-identities.md)
-12. [Migration considerations](./docs/migration.md)
-
 # Introduction
 
-_Azure Chat Solution Accelerator powered by Azure OpenAI Service_
+_Azure Chat Solution Accelerator powered by Azure AI Foundry (Agentic)_
 
 ![Intro Image](/docs/images/intro.png)
 
-_Azure Chat Solution Accelerator powered by Azure OpenAI Service_ is a solution accelerator that allows organisations to deploy a private chat tenant in their Azure Subscription, with a familiar user experience and the added capabilities of chatting over your data and files.
+_Azure Chat Solution Accelerator powered by Azure AI Foundry (Agentic)_ is a solution accelerator that allows organisations to deploy a private chat tenant in their Azure Subscription, with a familiar user experience and the added capabilities of chatting over your data, files, web, and other connected services.
 
 Benefits are:
 
