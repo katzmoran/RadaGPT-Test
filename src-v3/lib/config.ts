@@ -12,7 +12,7 @@ export const ORGANIZATION_NAME: string = "Contoso"
 export const CHAT_DISCLAIMER: string | null = `${AI_NAME} can make mistakes, always check important info. Interactions are logged.`
 
 /** Show AI name and icon above chat responses. */
-export const SHOW_AI_NAME_ON_RESPONSE: boolean = true;
+export const SHOW_AI_NAME_ON_RESPONSE: boolean = false;
 /** Show user name and image above chat prompts. */
 export const SHOW_USER_NAME_ON_PROMPT: boolean = false;
 

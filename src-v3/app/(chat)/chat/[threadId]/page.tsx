@@ -5,13 +5,13 @@ import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 interface Props {
-  params: {
-    threadId: Promise<string>;
-  };
+  params: Promise<{
+    threadId: string;
+  }>;
 }
 
 export default async function ThreadPage({ params }: Props) {
-  const threadId = await params.threadId;
+  const { threadId } = await params;
 
   const queryClient = getQueryClient();
   void queryClient.prefetchQuery(
