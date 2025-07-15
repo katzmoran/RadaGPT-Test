@@ -1,21 +1,9 @@
-import { agentRouter } from '@/modules/agents/server/prodedures';
-import { messageRouter } from '@/modules/messages/prodedures';
-import { threadRouter } from '@/modules/threads/server/prodedures';
-import { z } from 'zod';
-import { baseProcedure, createTRPCRouter } from '../init';
+import { agentRouter } from '@/modules/agents/server/procedures';
+import { messageRouter } from '@/modules/messages/server/procedures';
+import { threadRouter } from '@/modules/threads/server/procedures';
+import { createTRPCRouter } from '../init';
 
 export const appRouter = createTRPCRouter({
-  hello: baseProcedure
-    .input(
-      z.object({
-        text: z.string(),
-      }),
-    )
-    .query((opts) => {
-      return {
-        greeting: `hello ${opts.input.text}`,
-      };
-    }),
   threads: threadRouter,
   agents: agentRouter,
   messages: messageRouter
