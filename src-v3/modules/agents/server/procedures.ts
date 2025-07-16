@@ -1,6 +1,22 @@
 import { agentClient } from "@/lib/ai-foundry";
 import { baseProcedure, createTRPCRouter } from "@/trpc/init";
+import { Agent } from "@azure/ai-agents";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+
+/**
+ * Get all connected agents from the thread metadata.
+ * @param metadata - The thread metadata containing connected agents (asst_*).
+ * @returns An array of connected agents with their IDs and thread IDs.
+ */
+function getConnectedAgentIds(metadata: Record<string, any> | null) {
+  return Object.entries(metadata || {})
+    .filter(([key]) => key.startsWith("connected_agent|"))
+    .map(([key, value]) => ({
+      agentId: key.split("|")[1],
+      threadId: value,
+    }));
+}
 
 export const agentRouter = createTRPCRouter({
   create: baseProcedure
@@ -66,6 +82,45 @@ export const agentRouter = createTRPCRouter({
       console.debug("Retrieved agent:", agent);
 
       return agent;
+    }),
+
+  getThreadConnectedAgents: baseProcedure
+    .input(
+      z.object({
+        threadId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { threadId } = input;
+      // Retrieve the agent thread by ID
+      const thread = await agentClient.threads.get(threadId);
+
+      if (!thread) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: `Agent thread with ID ${threadId} not found`,
+        });
+      }
+
+      // Get the ids of the connected agents
+      const connectedAgents = getConnectedAgentIds(thread.metadata);
+
+      const agents: Agent[] = [];
+      for (const { agentId } of connectedAgents) {
+        // Retrieve each connected agent by ID
+        const agent = await agentClient.getAgent(agentId);
+        if (agent) {
+          agents.push({
+            ...agent,
+          });
+        } else {
+          console.warn(`Agent with ID ${agentId} not found`);
+        }
+      }
+
+      console.debug("Connected agents:", agents);
+
+      return agents;
     }),
 
   delete: baseProcedure
