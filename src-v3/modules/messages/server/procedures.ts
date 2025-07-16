@@ -21,6 +21,24 @@ export const messageRouter = createTRPCRouter({
       return message;
     }),
 
+
+  upsertFeedback: baseProcedure
+    .input(
+      z.object({
+        messageId: z.string(),
+        vote: z.enum(["positive", "negative"]),
+        comment: z.string().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { messageId, vote, comment } = input;
+
+      // Here you would typically save the feedback to a database or send it to an analytics service
+      console.debug("Feedback received for message:", messageId, "Vote:", vote, "Comment:", comment);
+
+      return { success: true };
+    }),
+
   getByThread: baseProcedure
     .input(
       z.object({
