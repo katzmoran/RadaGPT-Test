@@ -67,7 +67,7 @@ export const HomeView = () => {
   return (
     <div className="flex flex-col h-full w-full">
       <div className="flex-1 overflow-y-auto p-4 pb-8">
-        <ThreadWelcome agents={[]} />
+        <ThreadWelcome />
       </div>
       <div className="my-1">
         <AIInput onSubmit={handleSubmit} className="mx-auto max-w-3xl">

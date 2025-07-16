@@ -9,7 +9,7 @@ import { Agent } from "@azure/ai-agents";
 import { MessagesSquareIcon } from "lucide-react";
 
 interface ThreadWelcomeProps {
-  agents: Agent[];
+  agents?: Agent[];
 }
 
 export function ThreadWelcome({ agents }: ThreadWelcomeProps) {
@@ -23,11 +23,11 @@ export function ThreadWelcome({ agents }: ThreadWelcomeProps) {
         {hasAgents ? (
           <p>{AI_NAME} is collaborating with:</p>
         ) : (
-          <p>Let's chat...</p>
+          <p>I'll do my best to assist...</p>
         )}
       </div>
       <div className="*:data-[slot=avatar]:ring-background flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:grayscale">
-        {agents.map((agent) => (
+        {agents?.map((agent) => (
           <Tooltip key={agent.id}>
             <TooltipTrigger>
               <Avatar>
