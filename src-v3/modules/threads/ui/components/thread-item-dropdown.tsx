@@ -38,7 +38,7 @@ export const ThreadItemDropdown = ({
     trpc.threads.delete.mutationOptions({
       onSuccess: (thread) => {
         if (thread.success) {
-          toast.success("Thread deleted successfully");
+          toast.success("Thread deleted");
         } else {
           toast.error("Failed to delete thread");
         }
@@ -53,9 +53,9 @@ export const ThreadItemDropdown = ({
     trpc.threads.bookmark.mutationOptions({
       onSuccess: (thread) => {
         if (isBookmarked(thread)) {
-          toast.success("Thread bookmarked successfully");
+          toast.success("Thread bookmarked");
         } else {
-          toast.success("Bookmark removed successfully");
+          toast.success("Bookmark removed");
         }
 
         // Invalidate the threads query to refresh the list
