@@ -18,17 +18,18 @@ import {
   Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
+import { isBookmarked } from "../../utils";
 
 interface ThreadItemDropdownProps {
   threadId: string;
   isMobile: boolean;
-  isBookmarked?: boolean;
+  bookmarked?: boolean;
 }
 
 export const ThreadItemDropdown = ({
   isMobile,
   threadId,
-  isBookmarked,
+  bookmarked,
 }: ThreadItemDropdownProps) => {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
@@ -51,7 +52,7 @@ export const ThreadItemDropdown = ({
   const bookmarkThread = useMutation(
     trpc.threads.bookmark.mutationOptions({
       onSuccess: (thread) => {
-        if (thread.isBookmarked) {
+        if (isBookmarked(thread)) {
           toast.success("Thread bookmarked successfully");
         } else {
           toast.success("Bookmark removed successfully");
@@ -83,7 +84,7 @@ export const ThreadItemDropdown = ({
           disabled={bookmarkThread.isPending}
           onClick={() => bookmarkThread.mutate({ id: threadId })}
         >
-          {isBookmarked ? (
+          {bookmarked ? (
             <>
               <BookmarkMinus className="text-muted-foreground" />
               <span>Remove Bookmark</span>

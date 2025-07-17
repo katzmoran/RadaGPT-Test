@@ -1,6 +1,7 @@
 import { agentClient } from "@/lib/ai-foundry";
 import { baseProcedure, createTRPCRouter } from "@/trpc/init";
 import { z } from "zod";
+import { isBookmarked } from "../utils";
 
 export const threadRouter = createTRPCRouter({
   create: baseProcedure
@@ -54,6 +55,40 @@ export const threadRouter = createTRPCRouter({
       return thread;
     }),
 
+  bookmark: baseProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      }),
+    ).mutation(async ({ ctx, input }) => {
+      const { id } = input;
+
+      const thread = await agentClient.threads.get(id);
+
+      if (isBookmarked(thread)) {
+        // Remove the bookmark metadata
+        const { isBookmarked, ...restMetadata } = thread.metadata ?? {};
+        const updated = await agentClient.threads.update(id, {
+          metadata: {
+            ...restMetadata,
+            // TODO: Find out why simply removing the metadata entry does not work
+            isBookmarked: "false",
+          },
+        });
+
+        return updated;
+      }
+
+      // Set isBookmarked metadata to "true"
+      const bookmarked = await agentClient.threads.update(id, {
+        metadata: {
+          ...thread.metadata,
+          isBookmarked: "true",
+        },
+      });
+
+      return bookmarked;
+    }),
   delete: baseProcedure
     .input(
       z.object({
